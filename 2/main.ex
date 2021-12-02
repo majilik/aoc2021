@@ -44,6 +44,21 @@ defmodule Main do
     end
 
     def solution2(list) do
-        list
+        %{depth: depth, h_pos: h_pos} = list
+        |> Enum.reduce(%{aim: 0, depth: 0, h_pos: 0}, &run_command2/2)
+        depth * h_pos
+    end
+
+    def run_command2({:forward, value}, pos) do
+       %{h_pos: h_pos, aim: aim, depth: depth} = pos
+       %{pos | h_pos: h_pos + value, depth: depth + aim * value} 
+    end
+    def run_command2({:down, value}, pos) do
+        %{aim: aim} = pos
+        %{pos | aim: aim + value}
+    end
+    def run_command2({:up, value}, pos) do
+        %{aim: aim} = pos
+        %{pos | aim: aim - value}
     end
 end
